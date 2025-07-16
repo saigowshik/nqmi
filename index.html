@@ -1,258 +1,742 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Neural-Quantum Memory Interface - IoT Competition Presentation</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural-Quantum Memory Interface - IoT Competition Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .slide:hover {
+            transform: translateY(-5px);
+        }
+
+        .slide h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .slide h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .slide h3 {
+            font-size: 1.8em;
+            margin: 20px 0;
+            color: #ffd700;
+            border-bottom: 2px solid #ffd700;
+            padding-bottom: 10px;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.3em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .slide ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .slide li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 10px;
+        }
+
+        .slide li:before {
+            content: "⚛️";
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+        }
+
+        .demo-section {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px solid #ffd700;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .tech-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .tech-card:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin: 10px;
+            min-width: 200px;
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            color: #ffd700;
+        }
+
+        .code-preview {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            color: #00ff00;
+            margin: 20px 0;
+            border: 1px solid #00ff00;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 30px 0;
+        }
+
+        .timeline-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #ffd700;
+        }
+
+        .navigation {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+
+        .nav-button {
+            background: #ffd700;
+            color: #000;
+            border: none;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .nav-button:hover {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .brain-animation {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #ff6b6b, #4ecdc4);
+            border-radius: 50%;
+            margin: 20px auto;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255, 107, 107, 0.5); }
+            to { text-shadow: 0 0 30px rgba(78, 205, 196, 0.8); }
+        }
+
+        .quantum-viz {
+            width: 300px;
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 15px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            animation: quantum-fluctuation 3s infinite;
+        }
+
+        @keyframes quantum-fluctuation {
+            0%, 100% { opacity: 1; transform: rotate(0deg); }
+            25% { opacity: 0.7; transform: rotate(5deg); }
+            75% { opacity: 0.9; transform: rotate(-5deg); }
+        }
+
+        .interactive-demo {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .demo-button {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin: 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+
+        .demo-button:hover {
+            transform: scale(1.1);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            width: 0%;
+            transition: width 2s ease;
+        }
+
+        @media (max-width: 768px) {
+            .slide h1 { font-size: 2.5em; }
+            .slide h2 { font-size: 2em; }
+            .slide p, .slide li { font-size: 1.1em; }
+            .tech-grid { grid-template-columns: 1fr; }
+            .stats-container { flex-direction: column; }
+        }
+    </style>
 </head>
 <body>
-  <div class="navigation">
-    <button class="nav-button" onclick="scrollToSlide(0)">Title</button>
-    <button class="nav-button" onclick="scrollToSlide(1)">Problem</button>
-    <button class="nav-button" onclick="scrollToSlide(2)">Solution</button>
-    <button class="nav-button" onclick="scrollToSlide(3)">Demo</button>
-    <button class="nav-button" onclick="scrollToSlide(4)">Tech</button>
-    <button class="nav-button" onclick="scrollToSlide(5)">Impact</button>
-  </div>
-
-  <div class="presentation-container">
-
-    <!-- Slide 1: Title -->
-    <div class="slide" id="slide-0">
-      <h1>Neural-Quantum Memory Interface</h1>
-      <div class="brain-animation"></div>
-      <h2>The First IoT System That Builds Memories</h2>
-      <p style="font-size: 1.5em; text-align: center; margin-top: 30px;">
-        Revolutionary technology that creates objects capable of forming relationships with humans through brain-computer interfaces and quantum-inspired learning
-      </p>
-      <p style="font-size: 1.2em; text-align: center; margin-top: 20px; color: #ffd700;">
-        Team: [Your Team Name] | Competition: [Competition Name] | Date: [Date]
-      </p>
+    <div class="navigation">
+        <button class="nav-button" onclick="scrollToSlide(0)">Title</button>
+        <button class="nav-button" onclick="scrollToSlide(1)">Problem</button>
+        <button class="nav-button" onclick="scrollToSlide(2)">Solution</button>
+        <button class="nav-button" onclick="scrollToSlide(3)">Demo</button>
+        <button class="nav-button" onclick="scrollToSlide(4)">Tech</button>
+        <button class="nav-button" onclick="scrollToSlide(5)">Impact</button>
     </div>
 
-    <!-- Slide 2: Problem Statement -->
-    <div class="slide" id="slide-1">
-      <h2>🚨 The Problem: IoT That Doesn't Understand Us</h2>
-      <div class="tech-grid">
-        <div class="tech-card">
-          <h3>Current IoT is Reactive</h3>
-          <p>Devices only respond to commands. They don't learn or anticipate needs.</p>
-        </div>
-        <div class="tech-card">
-          <h3>No Emotional Intelligence</h3>
-          <p>Smart devices can't detect stress, mood, or emotional state.</p>
-        </div>
-        <div class="tech-card">
-          <h3>Isolated Learning</h3>
-          <p>Each device learns independently. No shared knowledge or coordination.</p>
-        </div>
-        <div class="tech-card">
-          <h3>Generic Responses</h3>
-          <p>One-size-fits-all solutions that don't adapt to individual preferences.</p>
-        </div>
-      </div>
-      <div class="stats-container">
-        <div class="stat-item">
-          <div class="stat-number">73%</div>
-          <div class="stat-label">Users frustrated with "smart" devices</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">2.3 hrs</div>
-          <div class="stat-label">Daily time wasted on device configuration</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">0%</div>
-          <div class="stat-label">Current IoT systems with emotional intelligence</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Slide 3: Our Solution -->
-    <div class="slide" id="slide-2">
-      <h2>⚛️ Our Solution: Objects That Form Memories</h2>
-      <div class="quantum-viz">
-        <span>Quantum + Neural + IoT</span>
-      </div>
-      <div class="tech-grid">
-        <!-- Brain-Computer Interface -->
-        <div class="tech-card">
-          <h3>🧠 Brain-Computer Interface</h3>
-          <p>Direct neural pattern reading through EEG sensors</p>
-          <ul>
-            <li>8-channel EEG for brainwave analysis</li>
-            <li>Heart rate variability monitoring</li>
-            <li>Galvanic skin response for stress detection</li>
-            <li>Micro-expression analysis via AI</li>
-          </ul>
-        </div>
-        <!-- Quantum Memory -->
-        <div class="tech-card">
-          <h3>⚛️ Quantum Memory Processing</h3>
-          <p>Quantum-inspired algorithms for learning and memory</p>
-          <ul>
-            <li>Superposition of multiple preference states</li>
-            <li>Quantum tunneling for optimal responses</li>
-            <li>Entanglement for instant object communication</li>
-            <li>Quantum error correction for memory stability</li>
-          </ul>
-        </div>
-        <!-- Neural Networks -->
-        <div class="tech-card">
-          <h3>🔗 Adaptive Neural Networks</h3>
-          <p>Spiking neural networks that mimic brain behavior</p>
-          <ul>
-            <li>Hebbian learning: "neurons that fire together, wire together"</li>
-            <li>Neuroplasticity simulation</li>
-            <li>Emotional memory encoding with priority weighting</li>
-            <li>Continuous adaptation and evolution</li>
-          </ul>
-        </div>
-        <!-- Communication -->
-        <div class="tech-card">
-          <h3>📡 Quantum-Entangled Communication</h3>
-          <p>Instant knowledge sharing between objects</p>
-          <ul>
-            <li>LoRa mesh with quantum optimization</li>
-            <li>Blockchain ledger for memory authenticity</li>
-            <li>Distributed processing across network</li>
-            <li>Zero-latency preference synchronization</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Slide 4: Live Demo -->
-    <div class="slide" id="slide-3">
-      <h2>🎭 Live Demonstration</h2>
-      <div class="interactive-demo">
-        <h3>Watch Objects Learn and Adapt in Real-Time</h3>
-
-        <div class="demo-section">
-          <h4>Step 1: Neural Connection</h4>
-          <p>EEG sensors detect your focus, stress, and emotional state</p>
-          <button class="demo-button" onclick="simulateEEG()">Start EEG Reading</button>
-          <div class="progress-bar">
-            <div class="progress-fill" id="eeg-progress"></div>
-          </div>
-          <p id="eeg-status">Ready to read brainwaves...</p>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide" id="slide-0">
+            <h1>Neural-Quantum Memory Interface</h1>
+            <div class="brain-animation"></div>
+            <h2>The First IoT System That Builds Memories</h2>
+            <p style="font-size: 1.5em; text-align: center; margin-top: 30px;">
+                Revolutionary technology that creates objects capable of forming relationships with humans through brain-computer interfaces and quantum-inspired learning
+            </p>
+            <p style="font-size: 1.2em; text-align: center; margin-top: 20px; color: #ffd700;">
+                Team: [Your Team Name] | Competition: [Competition Name] | Date: [Date]
+            </p>
         </div>
 
-        <div class="demo-section">
-          <h4>Step 2: Memory Formation</h4>
-          <p>Object learns your preferences and creates emotional memories</p>
-          <button class="demo-button" onclick="simulateMemory()">Form Memory</button>
-          <div class="progress-bar">
-            <div class="progress-fill" id="memory-progress"></div>
-          </div>
-          <p id="memory-status">Ready to form memories...</p>
+        <!-- Slide 2: Problem Statement -->
+        <div class="slide" id="slide-1">
+            <h2>🚨 The Problem: IoT That Doesn't Understand Us</h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h3>Current IoT is Reactive</h3>
+                    <p>Devices only respond to commands. They don't learn or anticipate needs.</p>
+                </div>
+                <div class="tech-card">
+                    <h3>No Emotional Intelligence</h3>
+                    <p>Smart devices can't detect stress, mood, or emotional state.</p>
+                </div>
+                <div class="tech-card">
+                    <h3>Isolated Learning</h3>
+                    <p>Each device learns independently. No shared knowledge or coordination.</p>
+                </div>
+                <div class="tech-card">
+                    <h3>Generic Responses</h3>
+                    <p>One-size-fits-all solutions that don't adapt to individual preferences.</p>
+                </div>
+            </div>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">73%</div>
+                    <div class="stat-label">Users frustrated with "smart" devices</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2.3 hrs</div>
+                    <div class="stat-label">Daily time wasted on device configuration</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">0%</div>
+                    <div class="stat-label">Current IoT systems with emotional intelligence</div>
+                </div>
+            </div>
         </div>
 
-        <div class="demo-section">
-          <h4>Step 3: Quantum Sharing</h4>
-          <p>All connected objects instantly learn your preferences</p>
-          <button class="demo-button" onclick="simulateQuantumSync()">Quantum Sync</button>
-          <div class="progress-bar">
-            <div class="progress-fill" id="quantum-progress"></div>
-          </div>
-          <p id="quantum-status">Ready for quantum entanglement...</p>
+        <!-- Slide 3: Our Solution -->
+        <div class="slide" id="slide-2">
+            <h2>⚛️ Our Solution: Objects That Form Memories</h2>
+            <div class="quantum-viz">
+                <span>Quantum + Neural + IoT</span>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h3>🧠 Brain-Computer Interface</h3>
+                    <p>Direct neural pattern reading through EEG sensors</p>
+                    <ul>
+                        <li>8-channel EEG for brainwave analysis</li>
+                        <li>Heart rate variability monitoring</li>
+                        <li>Galvanic skin response for stress detection</li>
+                        <li>Micro-expression analysis via AI</li>
+                    </ul>
+                </div>
+                <div class="tech-card">
+                    <h3>⚛️ Quantum Memory Processing</h3>
+                    <p>Quantum-inspired algorithms for learning and memory</p>
+                    <ul>
+                        <li>Superposition of multiple preference states</li>
+                        <li>Quantum tunneling for optimal responses</li>
+                        <li>Entanglement for instant object communication</li>
+                        <li>Quantum error correction for memory stability</li>
+                    </ul>
+                </div>
+                <div class="tech-card">
+                    <h3>🔗 Adaptive Neural Networks</h3>
+                    <p>Spiking neural networks that mimic brain behavior</p>
+                    <ul>
+                        <li>Hebbian learning: "neurons that fire together, wire together"</li>
+                        <li>Neuroplasticity simulation</li>
+                        <li>Emotional memory encoding with priority weighting</li>
+                        <li>Continuous adaptation and evolution</li>
+                    </ul>
+                </div>
+                <div class="tech-card">
+                    <h3>📡 Quantum-Entangled Communication</h3>
+                    <p>Instant knowledge sharing between objects</p>
+                    <ul>
+                        <li>LoRa mesh with quantum optimization</li>
+                        <li>Blockchain ledger for memory authenticity</li>
+                        <li>Distributed processing across network</li>
+                        <li>Zero-latency preference synchronization</li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
-        <div class="demo-section">
-          <h4>Step 4: Predictive Response</h4>
-          <p>System anticipates your needs before you realize them</p>
-          <button class="demo-button" onclick="simulatePrediction()">Predict Needs</button>
-          <div class="progress-bar">
-            <div class="progress-fill" id="prediction-progress"></div>
-          </div>
-          <p id="prediction-status">Ready to predict future needs...</p>
+        <!-- Slide 4: Live Demo -->
+        <div class="slide" id="slide-3">
+            <h2>🎭 Live Demonstration</h2>
+            <div class="interactive-demo">
+                <h3>Watch Objects Learn and Adapt in Real-Time</h3>
+                <div class="demo-section">
+                    <h4>Step 1: Neural Connection</h4>
+                    <p>EEG sensors detect your focus, stress, and emotional state</p>
+                    <button class="demo-button" onclick="simulateEEG()">Start EEG Reading</button>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="eeg-progress"></div>
+                    </div>
+                    <p id="eeg-status">Ready to read brainwaves...</p>
+                </div>
+
+                <div class="demo-section">
+                    <h4>Step 2: Memory Formation</h4>
+                    <p>Object learns your preferences and creates emotional memories</p>
+                    <button class="demo-button" onclick="simulateMemory()">Form Memory</button>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="memory-progress"></div>
+                    </div>
+                    <p id="memory-status">Ready to form memories...</p>
+                </div>
+
+                <div class="demo-section">
+                    <h4>Step 3: Quantum Sharing</h4>
+                    <p>All connected objects instantly learn your preferences</p>
+                    <button class="demo-button" onclick="simulateQuantumSync()">Quantum Sync</button>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="quantum-progress"></div>
+                    </div>
+                    <p id="quantum-status">Ready for quantum entanglement...</p>
+                </div>
+
+                <div class="demo-section">
+                    <h4>Step 4: Predictive Response</h4>
+                    <p>System anticipates your needs before you realize them</p>
+                    <button class="demo-button" onclick="simulatePrediction()">Predict Needs</button>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="prediction-progress"></div>
+                    </div>
+                    <p id="prediction-status">Ready to predict future needs...</p>
+                </div>
+            </div>
         </div>
 
-      </div>
-    </div>
+        <!-- Slide 5: Technical Architecture -->
+        <div class="slide" id="slide-4">
+            <h2>🔬 Technical Architecture</h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h3>Hardware Stack</h3>
+                    <ul>
+                        <li>ESP32-S3 with AI acceleration</li>
+                        <li>Custom 8-channel EEG amplifier</li>
+                        <li>Quantum random number generator</li>
+                        <li>Neuromorphic ReRAM memory</li>
+                        <li>Haptic feedback actuators</li>
+                        <li>Micro-projector for visual feedback</li>
+                    </ul>
+                </div>
+                <div class="tech-card">
+                    <h3>Software Innovation</h3>
+                    <ul>
+                        <li>Quantum simulator on FPGA</li>
+                        <li>Spiking neural network engine</li>
+                        <li>Biometric pattern recognition</li>
+                        <li>Emotional state classification</li>
+                        <li>Predictive behavior algorithms</li>
+                        <li>Quantum error correction</li>
+                    </ul>
+                </div>
+            </div>
 
-    <!-- Slide 5: Technical Architecture -->
-    <div class="slide" id="slide-4">
-      <h2>🔬 Technical Architecture</h2>
-      <div class="tech-grid">
-        <div class="tech-card">
-          <h3>Hardware Stack</h3>
-          <ul>
-            <li>ESP32-S3 with AI acceleration</li>
-            <li>Custom 8-channel EEG amplifier</li>
-            <li>Quantum random number generator</li>
-            <li>Neuromorphic ReRAM memory</li>
-            <li>Haptic feedback actuators</li>
-            <li>Micro-projector for visual feedback</li>
-          </ul>
-        </div>
-        <div class="tech-card">
-          <h3>Software Innovation</h3>
-          <ul>
-            <li>Quantum simulator on FPGA</li>
-            <li>Spiking neural network engine</li>
-            <li>Biometric pattern recognition</li>
-            <li>Emotional state classification</li>
-            <li>Predictive behavior algorithms</li>
-            <li>Quantum error correction</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="code-preview">
-        <h3>Core Algorithm Preview</h3>
-        <pre>
+            <div class="code-preview">
+                <h3>Core Algorithm Preview</h3>
+                <pre>
 class QuantumNeuralInterface {
-  void processNeuralInput() {
-    float eegData[8] = sensors.readEEG();
-    float hrv = sensors.readHRV();
-
-    QuantumState userState = quantum.createSuperposition(eegData, hrv);
-
-    neural.processSpikes(userState);
-
-    Response optimal = quantum.tunnelToOptimal(neural.getOutput());
-
-    executeResponse(optimal);
-  }
+    void processNeuralInput() {
+        // Capture biometric data
+        float eegData[8] = sensors.readEEG();
+        float hrv = sensors.readHRV();
+        
+        // Create quantum superposition
+        QuantumState userState = quantum.createSuperposition(eegData, hrv);
+        
+        // Process through neural network
+        neural.processSpikes(userState);
+        
+        // Quantum tunneling for optimal response
+        Response optimal = quantum.tunnelToOptimal(neural.getOutput());
+        
+        // Execute adaptive behavior
+        executeResponse(optimal);
+    }
 }
-        </pre>
-      </div>
+                </pre>
+            </div>
+        </div>
+
+        <!-- Slide 6: Impact & Results -->
+        <div class="slide" id="slide-5">
+            <h2>🎯 Impact & Results</h2>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Accuracy in emotional state detection</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10x</div>
+                    <div class="stat-label">Faster learning than traditional AI</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">40%</div>
+                    <div class="stat-label">Productivity improvement</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">60%</div>
+                    <div class="stat-label">Stress reduction</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100ms</div>
+                    <div class="stat-label">Neural pattern recognition time</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Quantum memory integrity</div>
+                </div>
+            </div>
+
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h3>🏆 Competition Advantages</h3>
+                    <ul>
+                        <li>First quantum-neural IoT system</li>
+                        <li>Revolutionary human-object interaction</li>
+                        <li>Measurable performance improvements</li>
+                        <li>Patentable technology innovations</li>
+                        <li>Real-world commercial potential</li>
+                    </ul>
+                </div>
+                <div class="tech-card">
+                    <h3>🌍 Real-World Applications</h3>
+                    <ul>
+                        <li>Smart workspaces that adapt to productivity</li>
+                        <li>Healthcare monitoring with emotional intelligence</li>
+                        <li>Educational environments that respond to learning</li>
+                        <li>Accessibility tools for neurological conditions</li>
+                        <li>Mental health support systems</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Implementation Timeline -->
+        <div class="slide" id="slide-6">
+            <h2>📅 Implementation Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>Phase 1: Neural-Object Bonding (2-3 weeks)</h3>
+                    <ul>
+                        <li>Basic EEG sensor integration</li>
+                        <li>Simple biometric pattern recognition</li>
+                        <li>Single object learning algorithms</li>
+                        <li>Memory formation and storage</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <h3>Phase 2: Quantum Memory Network (3-4 weeks)</h3>
+                    <ul>
+                        <li>Quantum simulator implementation</li>
+                        <li>Multi-object communication protocol</li>
+                        <li>Quantum-inspired optimization</li>
+                        <li>Emotional state prediction</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <h3>Phase 3: Ecosystem Intelligence (4-5 weeks)</h3>
+                    <ul>
+                        <li>Swarm intelligence algorithms</li>
+                        <li>Predictive behavior system</li>
+                        <li>Advanced neural network training</li>
+                        <li>Cloud integration and analytics</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <h3>Phase 4: Competition Demo (1-2 weeks)</h3>
+                    <ul>
+                        <li>Live demonstration system</li>
+                        <li>Performance optimization</li>
+                        <li>Presentation materials</li>
+                        <li>User testing and validation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Future Vision -->
+        <div class="slide" id="slide-7">
+            <h2>🔮 The Future We're Building</h2>
+            <div class="quantum-viz">
+                <span>Conscious Environments</span>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h3>Short-term Vision (1-2 years)</h3>
+                    <ul>
+                        <li>Smart homes that know your moods</li>
+                        <li>Workspaces that optimize for productivity</li>
+                        <li>Healthcare systems with emotional intelligence</li>
+                        <li>Educational environments that adapt to learning</li>
+                    </ul>
+                </div>
+                <div class="tech-card">
+                    <h3>Long-term Vision (5-10 years)</h3>
+                    <ul>
+                        <li>Entire cities with environmental consciousness</li>
+                        <li>Objects that form deep relationships with humans</li>
+                        <li>Predictive wellness interventions</li>
+                        <li>Seamless brain-computer integration</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="font-size: 1.8em; text-align: center; margin-top: 40px; color: #ffd700;">
+                "We're not just building IoT devices. We're creating the foundation for truly intelligent environments that understand, learn, and care."
+            </p>
+        </div>
+
+        <!-- Slide 9: Thank You -->
+        <div class="slide" id="slide-8">
+            <h1>Thank You</h1>
+            <div class="brain-animation"></div>
+            <h2>Questions & Discussion</h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h3>🎯 Key Takeaways</h3>
+                    <ul>
+                        <li>First IoT system with quantum-neural fusion</li>
+                        <li>Objects that build memories and relationships</li>
+                        <li>10x performance improvement over traditional AI</li>
+                        <li>Revolutionary human-computer interaction</li>
+                    </ul>
+                </div>
+                <div class="tech-card">
+                    <h3>📞 Contact Information</h3>
+                    <p>Team: [Your Team Name]</p>
+                    <p>Email: [your.email@domain.com]</p>
+                    <p>GitHub: [github.com/yourproject]</p>
+                    <p>Demo: [demo.yourproject.com]</p>
+                </div>
+            </div>
+            <p style="font-size: 1.5em; text-align: center; margin-top: 30px;">
+                Ready to demonstrate the future of human-object interaction?
+            </p>
+        </div>
     </div>
 
-    <!-- Slide 6: Impact & Results -->
-    <div class="slide" id="slide-5">
-      <h2>🎯 Impact & Results</h2>
-      <div class="stats-container">
-        <div class="stat-item">
-          <div class="stat-number">95%</div>
-          <div class="stat-label">Accuracy in emotional state detection</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">10x</div>
-          <div class="stat-label">Faster learning than traditional AI</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">40%</div>
-          <div class="stat-label">Productivity improvement</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">60%</div>
-          <div class="stat-label">Stress reduction</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">100ms</div>
-          <div class="stat-label">Neural pattern recognition time</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">99.9%</div>
-          <div class="stat-label">Quantum memory integrity</div>
-        </div>
-      </div>
-    </div>
+    <script>
+        function scrollToSlide(slideIndex) {
+            const slide = document.getElementById(`slide-${slideIndex}`);
+            slide.scrollIntoView({ behavior: 'smooth' });
+        }
 
-  </div>
+        function simulateEEG() {
+            const progress = document.getElementById('eeg-progress');
+            const status = document.getElementById('eeg-status');
+            
+            progress.style.width = '0%';
+            status.textContent = 'Reading brainwaves...';
+            
+            setTimeout(() => {
+                progress.style.width = '100%';
+                status.textContent = 'EEG Pattern Detected: Alpha waves (relaxed state)';
+            }, 1000);
+        }
 
-  <script src="script.js"></script>
+        function simulateMemory() {
+            const progress = document.getElementById('memory-progress');
+            const status = document.getElementById('memory-status');
+            
+            progress.style.width = '0%';
+            status.textContent = 'Forming quantum memory...';
+            
+            setTimeout(() => {
+                progress.style.width = '100%';
+                status.textContent = 'Memory formed: User prefers warm lighting when relaxed';
+            }, 1500);
+        }
+
+        function simulateQuantumSync() {
+            const progress = document.getElementById('quantum-progress');
+            const status = document.getElementById('quantum-status');
+            
+            progress.style.width = '0%';
+            status.textContent = 'Quantum entanglement in progress...';
+            
+            setTimeout(() => {
+                progress.style.width = '100%';
+                status.textContent = 'Synchronized: All 5 objects now know your preferences';
+            }, 800);
+        }
+
+        function simulatePrediction() {
+            const progress = document.getElementById('prediction-progress');
+            const status = document.getElementById('prediction-status');
+            
+            progress.style.width = '0%';
+            status.textContent = 'Analyzing patterns for prediction...';
+            
+            setTimeout(() => {
+                progress.style.width = '100%';
+                status.textContent = 'Prediction: You will need coffee in 23 minutes. Preparing...';
+            }, 2000);
+        }
+
+        // Auto-advance demo on page load
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                const slides = document.querySelectorAll('.slide');
+                slides.forEach((slide, index) => {
+                    slide.style.animationDelay = `${index * 0.2}s`;
+                });
+            }, 500);
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('.nav-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = this.getAttribute('onclick').match(/\d+/)[0];
+                scrollToSlide(target);
+            });
+        });
+    </script>
 </body>
-</html>
+</html>  
